@@ -1,5 +1,5 @@
 import { formatCount } from '../lib/vlsm'
-import { AlertTriangle, Copy, Download } from './Icons'
+import { AlertTriangle, Copy, Download, Info } from './Icons'
 
 function efficiencyTone(value) {
   if (value >= 75) return 'high'
@@ -7,7 +7,7 @@ function efficiencyTone(value) {
   return 'low'
 }
 
-export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet, onCopyPlan, onExport, t }) {
+export default function ResultsTable({ plan, sortMode, onSortMode, onViewDetails, onCopySubnet, onCopyPlan, onExport, onExportPdf, t }) {
   const rows =
     sortMode === 'size'
       ? [...plan.subnets].sort((a, b) => a.step - b.step)
@@ -43,6 +43,10 @@ export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet,
           <button type="button" className="btn btn--ghost btn--sm" onClick={onCopyPlan}>
             <Copy size={14} />
             {t('copyRow')}
+          </button>
+          <button type="button" className="btn btn--ghost btn--sm" onClick={onExportPdf}>
+            <Info size={14} />
+            {t('exportPdf')}
           </button>
           <button type="button" className="btn btn--primary btn--sm" onClick={onExport}>
             <Download size={14} />
@@ -114,6 +118,15 @@ export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet,
                       </div>
                     </td>
                     <td className="cell-actions">
+                      <button
+                        type="button"
+                        className="row-btn"
+                        onClick={() => onViewDetails(subnet.id)}
+                        title={t('viewDetails')}
+                        aria-label={`${t('viewDetails')} — ${subnet.name || `${t('subnetStep')} ${subnet.step}`}`}
+                      >
+                        <Info size={15} />
+                      </button>
                       <button
                         type="button"
                         className="row-btn"

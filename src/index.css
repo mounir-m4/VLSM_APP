@@ -1907,3 +1907,109 @@ button {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ── Mode switch (VLSM / FLSM) ─────────────────────────────── */
+.mode-switch {
+  display: inline-flex;
+  padding: 3px;
+  gap: 3px;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  border: 1px solid var(--stroke, rgba(255, 255, 255, 0.12));
+}
+
+.mode-switch__btn {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 5px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: 0.62;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.mode-switch__btn:hover {
+  opacity: 0.9;
+}
+
+.mode-switch__btn.is-active {
+  opacity: 1;
+  background: var(--accent, #4c8dff);
+  color: #fff;
+}
+
+/* ── FLSM panel ────────────────────────────────────────────── */
+.flsm-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.flsm-note {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--text-muted, rgba(255, 255, 255, 0.62));
+}
+
+/* ── Subnet detail panel ───────────────────────────────────── */
+.detail-panel {
+  margin-top: 18px;
+}
+
+.detail-kind {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent, #4c8dff);
+}
+
+.detail-title-cidr {
+  font-size: 0.72em;
+  opacity: 0.75;
+  margin-inline-start: 8px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 6px 22px;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--stroke, rgba(255, 255, 255, 0.1));
+  min-width: 0;
+}
+
+.detail-row__label {
+  font-size: 12.5px;
+  color: var(--text-muted, rgba(255, 255, 255, 0.62));
+  flex: 0 0 42%;
+}
+
+.detail-row__value {
+  flex: 1;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+  text-align: end;
+}
+
+.detail-row__value.muted {
+  opacity: 0.5;
+}
+
+.detail-row__copy {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.detail-row:hover .detail-row__copy,
+.detail-row__copy:focus-visible {
+  opacity: 1;
+}

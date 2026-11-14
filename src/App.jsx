@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import AddressMap from './components/AddressMap'
 import EmptyState from './components/EmptyState'
+import FlsmPanel from './components/FlsmPanel'
+import SubnetDetail from './components/SubnetDetail'
 import { AlertTriangle, Info, Moon, Network, Sun } from './components/Icons'
 import LanguageToggle from './components/LanguageToggle'
 import NetworkForm from './components/NetworkForm'
@@ -11,6 +13,7 @@ import Toast from './components/Toast'
 import { colorForIndex } from './lib/palette'
 import { PRESETS } from './lib/presets'
 import { getTranslation } from './lib/translations'
+import { exportPlanPdf } from './lib/report'
 import {
   MAX_HOSTS,
   calculatePlan,
@@ -99,6 +102,8 @@ export default function App() {
   const [theme, setTheme] = useState(seedTheme)
   const [language, setLanguage] = useState(seedLanguage)
   const [sortMode, setSortMode] = useState('address')
+  const [mode, setMode] = useState('vlsm')
+  const [detailId, setDetailId] = useState(null)
   const [toast, setToast] = useState(null)
   const [focusId, setFocusId] = useState(null)
   const [activePreset, setActivePreset] = useState(null)
@@ -265,7 +270,28 @@ export default function App() {
     showToast(t('exportCsv'))
   }
 
+  const exportPdf = () => {
+    if (!plan) return
+    exportPlanPdf(plan, language)
+    showToast(t('exportPdf'))
+  }
+
+  const exportCsvNamed = (csv, kind) => {
+    const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = `${kind}-${base.network.replaceAll('.', '-')}-${base.prefix}.csv`
+    document.body.appendChild(anchor)
+    anchor.click()
+    anchor.remove()
+    URL.revokeObjectURL(url)
+    showToast(t('exportCsv'))
+  }
+
   const hasValidRequirements = validRows.length > 0
+
+  const detailSubnet = plan?.subnets.find((subnet) => subnet.id === detailId) ?? null
 
   return (
     <div className="app">
@@ -291,6 +317,26 @@ export default function App() {
               <span className="pill__dot" />
               {t('emptyTitle')}
             </span>
+            <div className="mode-switch" role="tablist" aria-label={t('modeSwitchLabel')}>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mode === 'vlsm'}
+                className={`mode-switch__btn ${mode === 'vlsm' ? 'is-active' : ''}`}
+                onClick={() => setMode('vlsm')}
+              >
+                {t('modeVlsm')}
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mode === 'flsm'}
+                className={`mode-switch__btn ${mode === 'flsm' ? 'is-active' : ''}`}
+                onClick={() => setMode('flsm')}
+              >
+                {t('modeFlsm')}
+              </button>
+            </div>
             <LanguageToggle currentLang={language} onLanguageChange={setLanguage} />
             <button
               type="button"
@@ -333,6 +379,15 @@ export default function App() {
           </aside>
 
           <main className="content">
+            {mode === 'flsm' ? (
+              <FlsmPanel
+                baseInput={baseInput}
+                t={t}
+                onCopyText={(text) => copyText(text, `${t('copiedToClipboard')} (FLSM)`)}
+                onExportCsv={exportCsvNamed}
+              />
+            ) : (
+            <>
             {!base.ok ? (
               <section className="panel state-panel">
                 <div className="state-panel__icon">
@@ -396,6 +451,7 @@ export default function App() {
                         plan={plan}
                         sortMode={sortMode}
                         onSortMode={setSortMode}
+                        onViewDetails={setDetailId}
                         onCopySubnet={(subnet) =>
                           copyText(
                             subnetToText(subnet),
@@ -404,12 +460,24 @@ export default function App() {
                         }
                         onCopyPlan={() => copyText(planToText(plan), `${t('copiedToClipboard')} (plan)`)}
                         onExport={exportCsv}
+                        onExportPdf={exportPdf}
                         t={t}
                       />
                     </>
                   )
                 )}
               </>
+            )}
+            </>
+            )}
+
+            {mode === 'vlsm' && (
+              <SubnetDetail
+                subnet={detailSubnet}
+                onClose={() => setDetailId(null)}
+                onCopyValue={(value) => copyText(value, t('copiedToClipboard'))}
+                t={t}
+              />
             )}
 
             <footer className="footer">

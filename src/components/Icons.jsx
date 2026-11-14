@@ -18,6 +18,14 @@ function Svg({ size = 18, children, ...rest }) {
   )
 }
 
+export function X(props) {
+  return (
+    <Svg {...props}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </Svg>
+  )
+}
+
 export function Network(props) {
   return (
     <Svg {...props}>
