@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://vlsm-studio.vercel.app/sitemap.xml

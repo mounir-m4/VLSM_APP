@@ -1,24 +1,165 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#070d18" />
-    <meta
-      name="description"
-      content="VLSM Studio — a visual Variable Length Subnet Mask planner. Split IPv4 address space into right-sized subnets with a live map, allocation table, and CSV export."
-    />
-    <title>VLSM Studio — Variable Length Subnet Mask Planner</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/favicon.svg" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="theme-color" content="#070d18" />
+
+		<!-- Primary SEO -->
+		<title>
+			VLSM Studio — Free Variable Length Subnet Mask Calculator & IPv4 Subnet
+			Planner
+		</title>
+		<meta
+			name="description"
+			content="Free online VLSM calculator for IPv4 networks. Split a base CIDR block into right-sized subnets instantly — live address map, allocation table with gateways and broadcast addresses, point-to-point /31 /32 support, CSV export. Works in English and French."
+		/>
+		<meta
+			name="keywords"
+			content="VLSM calculator, subnet calculator, VLSM planner, CIDR calculator, IPv4 subnetting, subnet mask calculator, variable length subnet mask, IP address planner, network calculator, calculateur VLSM, calculateur de sous-réseaux"
+		/>
+		<meta name="author" content="mounir-m4" />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href="https://vlsm-studio.vercel.app/" />
+
+		<!-- Open Graph (Facebook, LinkedIn, WhatsApp...) -->
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="VLSM Studio" />
+		<meta property="og:url" content="https://vlsm-studio.vercel.app/" />
+		<meta
+			property="og:title"
+			content="VLSM Studio — Free VLSM Calculator & IPv4 Subnet Planner"
+		/>
+		<meta
+			property="og:description"
+			content="Split an IPv4 block into right-sized subnets instantly. Live address map, allocation table, CSV export. Free online VLSM calculator."
+		/>
+		<meta
+			property="og:image"
+			content="https://vlsm-studio.vercel.app/og-image.png"
+		/>
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:locale:alternate" content="fr_FR" />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta
+			name="twitter:title"
+			content="VLSM Studio — Free VLSM Calculator & IPv4 Subnet Planner"
+		/>
+		<meta
+			name="twitter:description"
+			content="Split an IPv4 block into right-sized subnets instantly. Live address map, allocation table, CSV export."
+		/>
+		<meta
+			name="twitter:image"
+			content="https://vlsm-studio.vercel.app/og-image.png"
+		/>
+
+		<!-- Structured data: web application -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "WebApplication",
+				"name": "VLSM Studio",
+				"alternateName": "VLSM Calculator",
+				"url": "https://vlsm-studio.vercel.app/",
+				"applicationCategory": "UtilitiesApplication",
+				"operatingSystem": "Any",
+				"browserRequirements": "Requires JavaScript",
+				"description": "Free online VLSM calculator for IPv4 networks. Split a base CIDR block into right-sized subnets with a live address map, allocation table, and CSV export.",
+				"inLanguage": ["en", "fr"],
+				"offers": {
+					"@type": "Offer",
+					"price": "0",
+					"priceCurrency": "USD"
+				},
+				"featureList": [
+					"VLSM subnet allocation",
+					"CIDR parsing and normalization",
+					"Address-space visualization",
+					"Point-to-point /31 and /32 support (RFC 3021)",
+					"CSV export",
+					"English and French interface"
+				]
+			}
+		</script>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<div id="root"></div>
+		<!-- Static fallback content for search engine crawlers and no-JS visitors -->
+		<noscript>
+			<div
+				style="
+					max-width: 720px;
+					margin: 40px auto;
+					padding: 0 20px;
+					font-family: system-ui, sans-serif;
+					color: #11253d;
+				"
+			>
+				<h1>VLSM Studio — Variable Length Subnet Mask Planner</h1>
+				<p>
+					VLSM Studio is a free online VLSM calculator (Variable Length Subnet
+					Mask) for IPv4 networks. Enter a base CIDR block like 192.168.10.0/24
+					and a list of host requirements — for example a staff LAN of 60 hosts,
+					guest Wi-Fi of 25 hosts, and servers of 12 hosts — and the tool
+					computes the optimal subnet plan.
+				</p>
+				<h2>How the VLSM allocation works</h2>
+				<ol>
+					<li>
+						Each host request is rounded up to the smallest power-of-two block
+						that fits it, reserving the network and broadcast addresses.
+					</li>
+					<li>
+						Requests are sorted largest-first so big subnets claim the aligned
+						low addresses.
+					</li>
+					<li>
+						Every subnet lands on its own boundary: a /26 always starts on a
+						multiple of 64 addresses.
+					</li>
+					<li>
+						Leftover address ranges are reported as free space for future
+						growth.
+					</li>
+				</ol>
+				<h2>Features</h2>
+				<ul>
+					<li>
+						Live subnet allocation with address-space map and full allocation
+						table
+					</li>
+					<li>
+						CIDR, netmask, usable host range, suggested gateway, and broadcast
+						per subnet
+					</li>
+					<li>
+						Point-to-point mode: 2-host links sized as /31 and 1-host as /32
+						(RFC 3021)
+					</li>
+					<li>CSV export of the complete plan</li>
+					<li>English and French interface — calculateur VLSM en français</li>
+				</ul>
+				<p>
+					This application requires JavaScript. Please enable it to use the
+					planner.
+				</p>
+			</div>
+		</noscript>
+		<script type="module" src="/src/main.jsx"></script>
+	</body>
 </html>

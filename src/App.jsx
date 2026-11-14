@@ -122,6 +122,16 @@ export default function App() {
     } catch {
       /* ignore */
     }
+    document.documentElement.lang = language
+    const meta = document.querySelector('meta[name="description"]')
+    if (meta) {
+      meta.setAttribute(
+        'content',
+        language === 'fr'
+          ? 'Calculateur VLSM gratuit pour réseaux IPv4. Découpez un bloc CIDR en sous-réseaux de taille optimale — carte d\'adressage en direct, tableau d\'allocation, export CSV. Mode point-à-point /31 /32.'
+          : 'Free online VLSM calculator for IPv4 networks. Split a base CIDR block into right-sized subnets instantly — live address map, allocation table with gateways and broadcast addresses, point-to-point /31 /32 support, CSV export.',
+      )
+    }
   }, [language])
 
   useEffect(() => {
