@@ -1693,6 +1693,10 @@ button {
   max-width: 62ch;
 }
 
+.footer--repo {
+  margin-top: 16px;
+}
+
 .footer__note svg {
   flex: none;
   margin-top: 2px;

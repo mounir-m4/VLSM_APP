@@ -485,6 +485,8 @@ export default function App() {
                 <Info size={15} />
                 <p>{t('footerNote')}</p>
               </div>
+            </footer>
+            <footer className="footer footer--repo">
               <a
                 className="footer__repo"
                 href="https://github.com/mounir-m4/VLSM_APP"
