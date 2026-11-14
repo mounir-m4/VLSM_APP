@@ -4,6 +4,23 @@ A visual **Variable Length Subnet Mask (VLSM)** planner for IPv4, built with Rea
 
 Enter a base network and a list of host requirements. VLSM Studio sizes each subnet, packs it into the address space, and shows the result as a live address map, allocation table, and exportable CSV.
 
+## Screenshots
+
+### Main Interface
+The application shows a complete VLSM allocation with visual address space map, summary statistics, and detailed subnet information.
+
+![VLSM Studio - Initial State](screenshots/1-empty-state.png)
+
+### Address Space Visualization
+Proportional bar chart showing how subnets are packed into the base network, with color-coded allocation and free space.
+
+![Address Space Map](screenshots/4-address-map.png)
+
+### Detailed Allocation Table
+Complete subnet plan with CIDR notation, usable ranges, gateways, broadcast addresses, and efficiency metrics.
+
+![Results Table](screenshots/3-results-table.png)
+
 ## Features
 
 - **Live VLSM allocation** — requests are rounded up to power-of-two blocks, sorted largest-first, and aligned to their own boundaries.
