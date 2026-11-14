@@ -486,19 +486,20 @@ export default function App() {
                 <p>{t('footerNote')}</p>
               </div>
             </footer>
-            <footer className="footer footer--repo">
-              <a
-                className="footer__repo"
-                href="https://github.com/mounir-m4/VLSM_APP"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="footer__repo-name">GitHub</span>
-                <span className="footer__repo-desc">{t('footerRepoDesc')}</span>
-              </a>
-            </footer>
           </main>
         </div>
+
+        <footer className="footer footer--repo">
+          <a
+            className="footer__repo"
+            href="https://github.com/mounir-m4/VLSM_APP"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="footer__repo-name">GitHub</span>
+            <span className="footer__repo-desc">{t('footerRepoDesc')}</span>
+          </a>
+        </footer>
       </div>
 
       {toast && <Toast key={toast.key} message={toast.message} />}
