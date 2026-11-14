@@ -9,9 +9,9 @@ export default function AddressMap({ plan, t }) {
       size: subnet.blockSize,
       startInt: subnet.networkInt,
       color: subnet.color,
-      label: subnet.name?.trim() || `Subnet ${subnet.step}`,
+      label: subnet.name?.trim() || `${t('subnetStep')} ${subnet.step}`,
       cidr: subnet.cidr,
-      title: `${subnet.name?.trim() || `Subnet ${subnet.step}`}\n${subnet.cidr} · ${subnet.mask}\n${subnet.first} – ${subnet.last} (${formatCount(subnet.usable)} usable)`,
+      title: `${subnet.name?.trim() || `${t('subnetStep')} ${subnet.step}`}\n${subnet.cidr} · ${subnet.mask}\n${subnet.first} – ${subnet.last} (${formatCount(subnet.usable)} ${t('usableHosts')})`,
     })),
     ...free.map((gap) => ({
       kind: 'free',
@@ -64,7 +64,7 @@ export default function AddressMap({ plan, t }) {
           {subnets.map((subnet) => (
             <span className="legend__item" key={`legend-${subnet.id}`}>
               <i style={{ background: subnet.color }} aria-hidden="true" />
-              <span className="legend__name">{subnet.name?.trim() || `Subnet ${subnet.step}`}</span>
+              <span className="legend__name">{subnet.name?.trim() || `${t('subnetStep')} ${subnet.step}`}</span>
               <span className="legend__cidr mono">{subnet.cidr}</span>
             </span>
           ))}

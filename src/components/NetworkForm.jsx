@@ -56,12 +56,12 @@ export default function NetworkForm({
             <span className="parsed__meta parsed__meta--mono">{t('mask')} {parsed.mask}</span>
             {parsed.normalized && (
               <span className="parsed__note">
-                Host bits cleared → {parsed.cidr}
+                {t('hostBitsCleared')} → {parsed.cidr}
               </span>
             )}
             {!parsed.hadPrefix && (
               <span className="parsed__note parsed__note--muted">
-                No prefix supplied — /{parsed.prefix} assumed.
+                {t('noPrefixSupplied')} — /{parsed.prefix} {t('assumed')}.
               </span>
             )}
           </div>
@@ -70,13 +70,13 @@ export default function NetworkForm({
         ) : (
           <div className="parsed parsed--empty">
             <span className="parsed__meta">
-              No prefix? /24 is assumed. The block is normalized to its network address.
+              {t('noPrefixAssumed')}
             </span>
           </div>
         )}
 
         <label className="field field--spaced" htmlFor="preset-select">
-          <span className="field__label">Start from an example</span>
+          <span className="field__label">{t('startFromExample')}</span>
           <div className="select-shell">
             <Sparkles size={16} className="field__icon" />
             <select
@@ -86,7 +86,7 @@ export default function NetworkForm({
                 if (event.target.value) onLoadPreset(event.target.value)
               }}
             >
-              <option value="">Choose a scenario…</option>
+              <option value="">{t('chooseScenario')}</option>
               {PRESETS.map((preset) => (
                 <option key={preset.id} value={preset.id}>
                   {preset.label} · {preset.base}

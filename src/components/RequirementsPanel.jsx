@@ -52,8 +52,8 @@ export default function RequirementsPanel({
       <div className="panel__body">
         {requirements.length === 0 ? (
           <div className="req-empty">
-            <span>No subnet requirements yet.</span>
-            <span>Add one below to start allocating.</span>
+            <span>{t('noRequirements')}</span>
+            <span>{t('noRequirementsHint')}</span>
           </div>
         ) : (
           <div className="req-list">
@@ -75,8 +75,8 @@ export default function RequirementsPanel({
                     className="req-row__name"
                     value={row.name}
                     onChange={(event) => onChange(row.id, { name: event.target.value })}
-                    placeholder={`Subnet ${index + 1}`}
-                    aria-label={`Name for subnet ${index + 1}`}
+                    placeholder={`${t('subnetStep')} ${index + 1}`}
+                    aria-label={`${t('nameForSubnet')} ${index + 1}`}
                     maxLength={32}
                   />
                   <div className="req-row__hosts">
@@ -88,7 +88,7 @@ export default function RequirementsPanel({
                       value={row.hosts}
                       onChange={(event) => onChange(row.id, { hosts: event.target.value })}
                       placeholder="0"
-                      aria-label={`Required hosts for subnet ${index + 1}`}
+                      aria-label={`${t('requiredHostsFor')} ${index + 1}`}
                     />
                     <span>{t('hosts')}</span>
                   </div>
@@ -96,8 +96,8 @@ export default function RequirementsPanel({
                     className={`req-row__prefix mono ${prefix !== null ? 'is-ready' : ''}`}
                     title={
                       blockSize
-                        ? `/${prefix} block · ${blockSize.toLocaleString('en-US')} addresses`
-                        : 'Enter a host count'
+                        ? `/${prefix} · ${blockSize.toLocaleString('en-US')} ${t('addressesBlock')}`
+                        : t('enterHostCount')
                     }
                   >
                     {prefix !== null ? `/${prefix}` : '—'}
@@ -106,8 +106,8 @@ export default function RequirementsPanel({
                     type="button"
                     className="row-btn"
                     onClick={() => onRemove(row.id)}
-                    aria-label={`Remove ${row.name || `subnet ${index + 1}`}`}
-                    title="Remove subnet"
+                    aria-label={`${t('removeSubnet')} ${row.name || `${t('subnetStep')} ${index + 1}`}`}
+                    title={t('removeSubnet')}
                   >
                     <Trash size={15} />
                   </button>
@@ -124,16 +124,18 @@ export default function RequirementsPanel({
 
         {requirements.length > 0 && (
           <div className="req-total">
-            <span>{requirements.length} requirement{requirements.length === 1 ? '' : 's'}</span>
             <span>
-              <strong>{totalHosts.toLocaleString('en-US')}</strong> hosts requested
+              {requirements.length} {requirements.length === 1 ? t('requirementSingle') : t('requirementsCount')}
+            </span>
+            <span>
+              <strong>{totalHosts.toLocaleString('en-US')}</strong> {t('hostsRequested')}
             </span>
           </div>
         )}
 
         <div className="req-note">
           <span className="req-note__dot" />
-          Blocks are sized automatically and sorted largest-first.
+          {t('blocksSortedNote')}
         </div>
       </div>
     </section>

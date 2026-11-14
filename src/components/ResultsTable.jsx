@@ -79,7 +79,7 @@ export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet,
                         />
                         <div className="cell-subnet__body">
                           <div className="cell-subnet__name">
-                            {subnet.name?.trim() || `Subnet ${subnet.step}`}
+                            {subnet.name?.trim() || `${t('subnetStep')} ${subnet.step}`}
                           </div>
                           <div className="cell-subnet__cidr">
                             <span className="mono">{subnet.cidr}</span>
@@ -118,8 +118,8 @@ export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet,
                         type="button"
                         className="row-btn"
                         onClick={() => onCopySubnet(subnet)}
-                        title="Copy subnet details"
-                        aria-label={`Copy ${subnet.name || `subnet ${subnet.step}`} details`}
+                        title={t('copySubnetDetails')}
+                        aria-label={`${t('copySubnetDetails')} — ${subnet.name || `${t('subnetStep')} ${subnet.step}`}`}
                       >
                         <Copy size={15} />
                       </button>
@@ -133,7 +133,7 @@ export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet,
       ) : (
         <div className="no-table">
           <AlertTriangle size={18} />
-          <span>No subnet found a home in this base network.</span>
+          <span>{t('noSubnetFound')}</span>
         </div>
       )}
 
@@ -141,7 +141,7 @@ export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet,
         <div className="failures">
           <h3>
             <AlertTriangle size={15} />
-            Couldn’t place {plan.failures.length} requirement{plan.failures.length === 1 ? '' : 's'}
+            {t('couldNotPlaceReq')} {plan.failures.length} {plan.failures.length === 1 ? t('requirementSingle') : t('requirementsCount')}
           </h3>
           <ul>
             {plan.failures.map((failure) => (
@@ -151,7 +151,7 @@ export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet,
                   style={{ background: failure.color }}
                   aria-hidden="true"
                 />
-                <strong>{failure.name?.trim() || 'Unnamed subnet'}</strong>
+                <strong>{failure.name?.trim() || t('unnamedSubnet')}</strong>
                 <span>
                   {formatCount(failure.hosts)} hosts · needs /{failure.prefix}
                 </span>

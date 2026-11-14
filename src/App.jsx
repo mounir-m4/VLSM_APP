@@ -214,7 +214,7 @@ export default function App() {
     setAllowP2P(Boolean(preset.allowPointToPoint))
     setRequirements(preset.requirements.map((row) => ({ ...row, id: uid() })))
     setActivePreset(preset.id)
-    showToast(`Loaded “${preset.label}”`)
+    showToast(`${t('loadPreset')} « ${preset.label} »`)
   }
 
   const copyText = async (text, message) => {
@@ -287,7 +287,7 @@ export default function App() {
               className="icon-btn"
               onClick={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
               aria-label={t(theme === 'dark' ? 'themeLight' : 'themeDark')}
-              title="Toggle theme"
+              title={t(theme === 'dark' ? 'themeLight' : 'themeDark')}
             >
               {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
             </button>
@@ -328,10 +328,10 @@ export default function App() {
                 <div className="state-panel__icon">
                   <AlertTriangle size={26} />
                 </div>
-                <h2>Base network needs attention</h2>
+                <h2>{t('baseNeedsAttention')}</h2>
                 <p>{base.error}</p>
                 <p className="state-panel__hint">
-                  Try{' '}
+                  {t('tryPrefix')}{' '}
                   <button
                     type="button"
                     className="inline-code"
@@ -339,7 +339,7 @@ export default function App() {
                   >
                     192.168.10.0/24
                   </button>{' '}
-                  or load a scenario from the sidebar.
+                  {t('orLoadScenario')}
                 </p>
               </section>
             ) : (
@@ -348,10 +348,9 @@ export default function App() {
                   <div className="alert alert--warning" role="status">
                     <AlertTriangle size={18} />
                     <div>
-                      <strong>Some host counts aren’t usable.</strong>
+                      <strong>{t('invalidHostCounts')}</strong>
                       <p>
-                        Enter a whole number from 1 to {formatCount(MAX_HOSTS)}. Invalid rows are
-                        skipped in the plan.
+                        {t('invalidHostCountsDetail')} {formatCount(MAX_HOSTS)}. {t('invalidRowsSkipped')}
                       </p>
                     </div>
                   </div>
@@ -362,12 +361,10 @@ export default function App() {
                     <AlertTriangle size={18} />
                     <div>
                       <strong>
-                        {plan.failures.length} subnet
-                        {plan.failures.length === 1 ? '' : 's'} couldn’t be placed.
+                        {plan.failures.length} {t('subnets')} {t('couldNotPlace')}
                       </strong>
                       <p>
-                        {base.cidr} ran out of contiguous space. Enlarge the base block or lower
-                        the host counts — the details are listed under the allocation table.
+                        {base.cidr} {t('ranOutOfSpace')}
                       </p>
                     </div>
                   </div>
@@ -392,7 +389,7 @@ export default function App() {
                         onCopySubnet={(subnet) =>
                           copyText(
                             subnetToText(subnet),
-                            `${subnet.name?.trim() || `Subnet ${subnet.step}`} ${t('copiedToClipboard')}`,
+                            `${subnet.name?.trim() || `${t('subnetStep')} ${subnet.step}`} ${t('copiedToClipboard')}`,
                           )
                         }
                         onCopyPlan={() => copyText(planToText(plan), `${t('copiedToClipboard')} (plan)`)}
@@ -407,11 +404,7 @@ export default function App() {
 
             <footer className="footer">
               <Info size={15} />
-              <p>
-                Every request is rounded up to the nearest power-of-two block, sorted largest
-                first, and aligned to its own boundary. Smaller blocks then fill the gaps.
-                Point-to-point mode enables /31 links and /32 loopbacks (RFC 3021).
-              </p>
+              <p>{t('footerNote')}</p>
             </footer>
           </main>
         </div>
