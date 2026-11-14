@@ -171,6 +171,7 @@ export const translations = {
 		copySubnetDetails: 'Copy subnet details',
 		footerNote:
 			'Each request is rounded up to the nearest power-of-two block, sorted largest first and aligned to its own boundary. Failed requests never disturb later allocations. Point-to-point mode follows RFC 3021: /31 links use both addresses as endpoints with no broadcast; /32 is a single host route.',
+		footerRepoDesc: 'Open source — star or report an issue on GitHub.',
 
 		// Units
 		host_one: 'host',
@@ -353,6 +354,8 @@ export const translations = {
 		copySubnetDetails: 'Copier les détails du sous-réseau',
 		footerNote:
 			'Chaque demande est arrondie au bloc puissance de deux le plus proche, triée du plus grand au plus petit et alignée sur sa propre limite. Les demandes en échec ne perturbent jamais les allocations suivantes. Le mode point-à-point suit la RFC 3021 : un lien /31 utilise ses deux adresses comme points de terminaison sans diffusion ; un /32 est une route d’hôte unique.',
+		footerRepoDesc:
+			'Open source — participez ou signalez un problème sur GitHub.',
 
 		// Units
 		host_one: 'hôte',

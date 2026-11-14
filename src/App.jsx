@@ -481,15 +481,18 @@ export default function App() {
             )}
 
             <footer className="footer">
-              <Info size={15} />
-              <p>{t('footerNote')}</p>
+              <div className="footer__note">
+                <Info size={15} />
+                <p>{t('footerNote')}</p>
+              </div>
               <a
-                className="footer__link"
+                className="footer__repo"
                 href="https://github.com/mounir-m4/VLSM_APP"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                GitHub
+                <span className="footer__repo-name">GitHub</span>
+                <span className="footer__repo-desc">{t('footerRepoDesc')}</span>
               </a>
             </footer>
           </main>
