@@ -1,5 +1,7 @@
 # VLSM Studio
 
+🌐 **[Live App](https://vlsm-studio.vercel.app)** | 📦 [GitHub Repository](https://github.com/mounir-m4/VLSM_APP)
+
 A visual **Variable Length Subnet Mask (VLSM)** planner for IPv4, built with React and Vite.
 
 Enter a base network and a list of host requirements. VLSM Studio sizes each subnet, packs it into the address space, and shows the result as a live address map, allocation table, and exportable CSV.

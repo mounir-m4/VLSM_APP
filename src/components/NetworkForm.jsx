@@ -10,13 +10,14 @@ export default function NetworkForm({
   onTogglePointToPoint,
   onLoadPreset,
   activePreset,
+  t,
 }) {
   return (
     <section className="panel">
       <div className="panel__head">
         <div className="panel__title-wrap">
-          <span className="panel__kicker">01 · Foundation</span>
-          <h2 className="panel__title">Base network</h2>
+          <span className="panel__kicker">01 · {t('sectionFoundation')}</span>
+          <h2 className="panel__title">{t('baseNetwork')}</h2>
         </div>
         <span className={`mini-badge ${parsed.ok ? 'is-ok' : ''}`}>
           {parsed.ok ? `/${parsed.prefix}` : '—'}
@@ -25,7 +26,7 @@ export default function NetworkForm({
 
       <div className="panel__body">
         <label className="field" htmlFor="base-network">
-          <span className="field__label">IPv4 block in CIDR</span>
+          <span className="field__label">{t('baseNetworkPlaceholder')}</span>
           <div className={`field__shell ${!parsed.ok && value ? 'is-invalid' : ''}`}>
             <Network size={17} className="field__icon" />
             <input
@@ -50,9 +51,9 @@ export default function NetworkForm({
               <span className="parsed__prefix mono">/{parsed.prefix}</span>
             </div>
             <span className="parsed__meta">
-              {formatCount(parsed.size)} addresses · {formatCount(parsed.usable)} usable hosts
+           {formatCount(parsed.size)} {t('addresses')} · {formatCount(parsed.usable)} {t('usableHosts')}
             </span>
-            <span className="parsed__meta parsed__meta--mono">mask {parsed.mask}</span>
+            <span className="parsed__meta parsed__meta--mono">{t('mask')} {parsed.mask}</span>
             {parsed.normalized && (
               <span className="parsed__note">
                 Host bits cleared → {parsed.cidr}
@@ -98,9 +99,9 @@ export default function NetworkForm({
 
         <div className="switch-row">
           <div className="switch-row__copy">
-            <span className="switch-row__title">Point-to-point mode</span>
-            <span className="switch-row__hint">
-              Size 1–2 host links as /32 and /31 (RFC 3021) to save address space.
+            <span className="switch-row__title">{t('allowP2P')}</span>
+          <span className="switch-row__hint">
+         {t('allowP2PDescription')}
             </span>
           </div>
           <button

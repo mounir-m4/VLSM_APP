@@ -6,45 +6,45 @@ function formatPercent(value) {
   return `${Math.round(value)}%`
 }
 
-export default function SummaryCards({ plan }) {
+export default function SummaryCards({ plan, t }) {
   const { summary } = plan
   const failureNote =
     summary.failureCount > 0
-      ? `${summary.failureCount} couldn’t fit`
-      : `${summary.requirementCount} requirement${summary.requirementCount === 1 ? '' : 's'}`
+      ? `${summary.failureCount} ${t('noSpace')}`
+      : `${summary.requirementCount} ${t('requirement')}${summary.requirementCount === 1 ? '' : 's'}`
 
   const cards = [
     {
       icon: Layers,
       tone: 'cyan',
-      label: 'Subnets planned',
+      label: t('subnets'),
       value: formatCount(summary.subnetCount),
       sub: failureNote,
     },
     {
       icon: Gauge,
       tone: 'violet',
-      label: 'Space allocated',
+      label: t('totalAllocated'),
       value: formatPercent(summary.spacePct),
-      sub: `${formatCount(summary.allocatedAddresses)} of ${formatCount(summary.totalAddresses)} addresses`,
+      sub: `${formatCount(summary.allocatedAddresses)} ${t('addresses')} · ${formatCount(summary.totalAddresses)}`,
       bar: Math.min(100, summary.spacePct),
     },
     {
       icon: Users,
       tone: 'emerald',
-      label: 'Hosts served',
+      label: t('usableHosts'),
       value: formatCount(summary.requestedHosts),
-      sub: `${formatCount(summary.usableHosts)} usable IPs available`,
+      sub: `${formatCount(summary.usableHosts)} IP ${t('usableHosts')}`,
     },
     {
       icon: Box,
       tone: 'amber',
-      label: 'Free space',
+      label: t('freeSpace'),
       value: formatCount(summary.freeAddresses),
       sub:
         summary.freeAddresses === 0
-          ? 'Every address accounted for'
-          : `${summary.freeBlocks} contiguous gap${summary.freeBlocks === 1 ? '' : 's'}`,
+          ? t('noSpace')
+          : `${summary.freeBlocks} ${t('free')}`,
     },
   ]
 

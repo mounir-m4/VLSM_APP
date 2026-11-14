@@ -1,6 +1,6 @@
 import { formatCount } from '../lib/vlsm'
 
-export default function AddressMap({ plan }) {
+export default function AddressMap({ plan, t }) {
   const { base, subnets, free } = plan
   const segments = [
     ...subnets.map((subnet) => ({
@@ -18,7 +18,7 @@ export default function AddressMap({ plan }) {
       key: `f-${gap.startInt}`,
       size: gap.size,
       startInt: gap.startInt,
-      label: 'Free',
+      label: t('free'),
       cidr: `${formatCount(gap.size)} addrs`,
       title: `Free space\n${gap.start} – ${gap.end}\n${formatCount(gap.size)} addresses`,
     })),
@@ -29,7 +29,7 @@ export default function AddressMap({ plan }) {
       <div className="panel__head">
         <div className="panel__title-wrap">
           <span className="panel__kicker">Topology</span>
-          <h2 className="panel__title">Address space</h2>
+          <h2 className="panel__title">{t('addressSpace')}</h2>
         </div>
         <span className="panel__hint mono">{base.cidr}</span>
       </div>
@@ -71,7 +71,7 @@ export default function AddressMap({ plan }) {
           {free.length > 0 && (
             <span className="legend__item legend__item--free">
               <i aria-hidden="true" />
-              <span className="legend__name">Free space</span>
+              <span className="legend__name">{t('freeSpace')}</span>
               <span className="legend__cidr mono">{formatCount(plan.summary.freeAddresses)} addrs</span>
             </span>
           )}

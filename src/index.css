@@ -259,6 +259,54 @@ button {
   transform: scale(0.95);
 }
 
+/* ---------- Language Toggle ---------- */
+
+.language-toggle {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 10px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+.language-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.language-button:hover {
+  background: var(--soft-hover);
+  color: var(--text);
+}
+
+.language-button.active {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.language-button .flag {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.language-button .lang-code {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 /* ---------- Layout & panels ---------- */
 
 .layout {

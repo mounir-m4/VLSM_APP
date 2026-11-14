@@ -19,6 +19,7 @@ export default function RequirementsPanel({
   onAdd,
   onClear,
   focusId,
+  t,
 }) {
   useEffect(() => {
     if (!focusId) return
@@ -35,15 +36,15 @@ export default function RequirementsPanel({
     <section className="panel">
       <div className="panel__head">
         <div className="panel__title-wrap">
-          <span className="panel__kicker">02 · Demand</span>
+          <span className="panel__kicker">02 · {t('sectionRequirements')}</span>
           <h2 className="panel__title">
-            Subnets
+            {t('subnets')}
             <span className="count-badge">{requirements.length}</span>
           </h2>
         </div>
         {requirements.length > 0 && (
           <button type="button" className="text-btn text-btn--danger" onClick={onClear}>
-            Clear all
+            {t('clearAll')}
           </button>
         )}
       </div>
@@ -89,7 +90,7 @@ export default function RequirementsPanel({
                       placeholder="0"
                       aria-label={`Required hosts for subnet ${index + 1}`}
                     />
-                    <span>hosts</span>
+                    <span>{t('hosts')}</span>
                   </div>
                   <span
                     className={`req-row__prefix mono ${prefix !== null ? 'is-ready' : ''}`}
@@ -118,7 +119,7 @@ export default function RequirementsPanel({
 
         <button type="button" className="add-row-btn" onClick={onAdd}>
           <Plus size={16} />
-          Add a subnet
+          {t('addRequirement')}
         </button>
 
         {requirements.length > 0 && (

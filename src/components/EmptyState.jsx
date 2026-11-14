@@ -8,7 +8,7 @@ const BARS = [
   { width: '10%', color: '#fb7185' },
 ]
 
-export default function EmptyState({ presets, onAdd, onLoadPreset }) {
+export default function EmptyState({ presets, onAdd, onLoadPreset, t }) {
   return (
     <section className="panel empty-state">
       <div className="mini-map" aria-hidden="true">
@@ -16,8 +16,8 @@ export default function EmptyState({ presets, onAdd, onLoadPreset }) {
           <span key={bar.color} style={{ width: bar.width, background: bar.color }} />
         ))}
       </div>
-      <span className="empty-state__kicker">Ready when you are</span>
-      <h2>Build your subnet plan</h2>
+      <span className="empty-state__kicker">{t('emptyTitle')}</span>
+      <h2>{t('emptyDescription')}</h2>
       <p>
         Give each segment a host count. VLSM sorts the requests largest-first, sizes every block to
         the next power of two, and packs them into the base network without overlap.
@@ -45,7 +45,7 @@ export default function EmptyState({ presets, onAdd, onLoadPreset }) {
 
       <button type="button" className="btn btn--primary" onClick={onAdd}>
         <Plus size={16} />
-        Add your first subnet
+        {t('addRequirement')}
       </button>
     </section>
   )

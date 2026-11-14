@@ -7,7 +7,7 @@ function efficiencyTone(value) {
   return 'low'
 }
 
-export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet, onCopyPlan, onExport }) {
+export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet, onCopyPlan, onExport, t }) {
   const rows =
     sortMode === 'size'
       ? [...plan.subnets].sort((a, b) => a.step - b.step)
@@ -17,9 +17,9 @@ export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet,
     <section className="panel table-panel">
       <div className="panel__head panel__head--wrap">
         <div className="panel__title-wrap">
-          <span className="panel__kicker">Allocation</span>
+          <span className="panel__kicker">{t('sectionAllocation')}</span>
           <h2 className="panel__title">
-            Subnet plan
+            {t('subnet')}
             <span className="count-badge">{plan.summary.subnetCount}</span>
           </h2>
         </div>
@@ -30,23 +30,23 @@ export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet,
               className={sortMode === 'address' ? 'is-active' : ''}
               onClick={() => onSortMode('address')}
             >
-              Address
+              {t('cidr')}
             </button>
             <button
               type="button"
               className={sortMode === 'size' ? 'is-active' : ''}
               onClick={() => onSortMode('size')}
             >
-              Size
+              {t('blockSize')}
             </button>
           </div>
           <button type="button" className="btn btn--ghost btn--sm" onClick={onCopyPlan}>
             <Copy size={14} />
-            Copy plan
+            {t('copyRow')}
           </button>
           <button type="button" className="btn btn--primary btn--sm" onClick={onExport}>
             <Download size={14} />
-            CSV
+            {t('exportCsv')}
           </button>
         </div>
       </div>
@@ -56,12 +56,12 @@ export default function ResultsTable({ plan, sortMode, onSortMode, onCopySubnet,
           <table className="data-table">
             <thead>
               <tr>
-                <th>Subnet</th>
-                <th>Requested</th>
-                <th>Usable range</th>
-                <th>Gateway</th>
-                <th>Broadcast</th>
-                <th>Efficiency</th>
+                <th>{t('subnet')}</th>
+                <th>{t('hosts')}</th>
+                <th>{t('usableRange')}</th>
+                <th>{t('gateway')}</th>
+                <th>{t('broadcast')}</th>
+                <th>{t('efficiency')}</th>
                 <th aria-label="Actions" />
               </tr>
             </thead>

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import AddressMap from './components/AddressMap'
 import EmptyState from './components/EmptyState'
 import { AlertTriangle, Info, Moon, Network, Sun } from './components/Icons'
+import LanguageToggle from './components/LanguageToggle'
 import NetworkForm from './components/NetworkForm'
 import RequirementsPanel from './components/RequirementsPanel'
 import ResultsTable from './components/ResultsTable'
@@ -9,6 +10,7 @@ import SummaryCards from './components/SummaryCards'
 import Toast from './components/Toast'
 import { colorForIndex } from './lib/palette'
 import { PRESETS } from './lib/presets'
+import { getTranslation } from './lib/translations'
 import {
   MAX_HOSTS,
   calculatePlan,
@@ -21,6 +23,7 @@ import {
 
 const STORAGE_KEY = 'vlsm-studio:plan'
 const THEME_KEY = 'vlsm-studio:theme'
+const LANG_KEY = 'vlsm-studio:language'
 
 function uid() {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID()
@@ -75,16 +78,32 @@ function seedTheme() {
   }
 }
 
+function seedLanguage() {
+  try {
+    const stored = window.localStorage.getItem(LANG_KEY)
+    if (stored) return stored
+    // Detect browser language
+    const browserLang = navigator.language.toLowerCase()
+    if (browserLang.startsWith('fr')) return 'fr'
+    return 'en'
+  } catch {
+    return 'en'
+  }
+}
+
 export default function App() {
   const [initial] = useState(seedState)
   const [baseInput, setBaseInput] = useState(initial.base)
   const [requirements, setRequirements] = useState(initial.requirements)
   const [allowP2P, setAllowP2P] = useState(initial.allowP2P)
   const [theme, setTheme] = useState(seedTheme)
+  const [language, setLanguage] = useState(seedLanguage)
   const [sortMode, setSortMode] = useState('address')
   const [toast, setToast] = useState(null)
   const [focusId, setFocusId] = useState(null)
   const [activePreset, setActivePreset] = useState(null)
+
+  const t = (key) => getTranslation(language, key)
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -96,6 +115,14 @@ export default function App() {
       /* ignore */
     }
   }, [theme])
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(LANG_KEY, language)
+    } catch {
+      /* ignore */
+    }
+  }, [language])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -177,7 +204,7 @@ export default function App() {
   const clearRequirements = () => {
     setRequirements([])
     setActivePreset(null)
-    showToast('Subnet list cleared')
+    showToast(t('clearAll'))
   }
 
   const loadPreset = (id) => {
@@ -225,7 +252,7 @@ export default function App() {
     anchor.click()
     anchor.remove()
     URL.revokeObjectURL(url)
-    showToast('CSV exported')
+    showToast(t('exportCsv'))
   }
 
   const hasValidRequirements = validRows.length > 0
@@ -243,22 +270,23 @@ export default function App() {
             </span>
             <div>
               <h1 className="brand__title">
-                VLSM <span>Studio</span>
-              </h1>
-              <p className="brand__sub">Variable Length Subnet Mask planner for IPv4</p>
+                {t('appTitle')}
+          </h1>
+              <p className="brand__sub">{t('appSubtitle')}</p>
             </div>
           </div>
 
           <div className="topbar__actions">
             <span className="pill">
               <span className="pill__dot" />
-              Live planner
+              {t('emptyTitle')}
             </span>
+            <LanguageToggle currentLang={language} onLanguageChange={setLanguage} />
             <button
               type="button"
               className="icon-btn"
               onClick={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+              aria-label={t(theme === 'dark' ? 'themeLight' : 'themeDark')}
               title="Toggle theme"
             >
               {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
@@ -279,16 +307,18 @@ export default function App() {
               }}
               onLoadPreset={loadPreset}
               activePreset={activePreset}
+              t={t}
             />
 
             <RequirementsPanel
               requirements={requirements}
-              allowPointToPoint={allowP2P}
+           allowPointToPoint={allowP2P}
               onChange={updateRequirement}
               onRemove={removeRequirement}
               onAdd={addRequirement}
-              onClear={clearRequirements}
+         onClear={clearRequirements}
               focusId={focusId}
+              t={t}
             />
           </aside>
 
@@ -348,12 +378,13 @@ export default function App() {
                     presets={PRESETS}
                     onAdd={addRequirement}
                     onLoadPreset={loadPreset}
+                    t={t}
                   />
                 ) : (
                   plan && (
                     <>
-                      <SummaryCards plan={plan} />
-                      <AddressMap plan={plan} />
+                      <SummaryCards plan={plan} t={t} />
+                      <AddressMap plan={plan} t={t} />
                       <ResultsTable
                         plan={plan}
                         sortMode={sortMode}
@@ -361,11 +392,12 @@ export default function App() {
                         onCopySubnet={(subnet) =>
                           copyText(
                             subnetToText(subnet),
-                            `${subnet.name?.trim() || `Subnet ${subnet.step}`} copied`,
+                            `${subnet.name?.trim() || `Subnet ${subnet.step}`} ${t('copiedToClipboard')}`,
                           )
                         }
-                        onCopyPlan={() => copyText(planToText(plan), 'Full plan copied')}
+                        onCopyPlan={() => copyText(planToText(plan), `${t('copiedToClipboard')} (plan)`)}
                         onExport={exportCsv}
+                        t={t}
                       />
                     </>
                   )
